@@ -1,0 +1,31 @@
+{% load i18n static %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+
+<select id="select-{{ title|slugify }}" class="filter-select">
+    {% for choice in choices %}
+        <option value="{{ choice.query_string|iriencode }}" {% if choice.selected %}selected{% endif %}>
+            {{ choice.display }}
+        </option>
+    {% endfor %}
+</select>
+
+<script type="application/javascript" src="{% static 'djangoadmin_list_filters/js/select2.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'djangoadmin_list_filters/css/select2.min.css' %}" />
+
+<script>
+    jQuery(function($){
+        $("#select-{{ title|slugify }}").select2({
+            width:'140'
+        }).on('change', function(val){
+            document.location = val.val
+        });
+    });
+</script>
+<style>
+    .select2-container {
+        margin-left: 5%;
+    }
+    #select-{{ title|slugify }} {
+        max-width: 240px; margin: 0 0 10px 10px;
+    }
+</style>

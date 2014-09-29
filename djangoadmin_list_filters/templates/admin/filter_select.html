@@ -1,0 +1,21 @@
+{% load i18n %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+
+<select id="select-{{ filter_title|slugify }}" class="filter-select">
+    {% for choice in choices %}
+        <option value="{{ choice.query_string|iriencode }}" {% if choice.selected %}selected{% endif %}>
+            {{ choice.display }}
+        </option>
+    {% endfor %}
+</select>
+
+<script>
+    jQuery('#select-{{ title|slugify }}').change(function(){
+        document.location = jQuery(this).val();
+    });
+</script>
+<style>
+    #select-{{ filter_title|slugify }} {
+        max-width: 140px; margin: 0 0 10px 10px;
+    }
+</style>
